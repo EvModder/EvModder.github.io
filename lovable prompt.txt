@@ -1,0 +1,10 @@
+The box/shading around the icon in the top left is still unequal, with the top and left sides being thicker than the bottom and right sides. I notice this is true for the boxes enclosing projects as well, and I think this UI approach should be changed, so that box outline widths are the same on all sides.
+
+There seem to be a lot of files in this project still, are they truly all necessary?
+Under src/, perhaps hooks/, data/, components/ could all be merged with lib/?
+What does ProjectCard.tsx do, is it necessary?
+Can any of these files be deleted, or have their code reduced? What happens if src/vite-env.d.ts is removed, and what purpose does it serve?
+What is the difference between App.tsx and main.tsx, and why do both need to exist?
+And what about all the tons of config files at the top-leve directory?
+
+I am fine with all of these files, if they are truly required, but if not, they should be merged or deleted, as long as it is possible to do so without impacting the functionality of the website.

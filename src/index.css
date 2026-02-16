@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  .light {
+    --background: 60 10% 95%;
+    --foreground: 150 10% 15%;
+
+    --card: 60 8% 92%;
+    --card-foreground: 150 10% 15%;
+
+    --popover: 60 8% 92%;
+    --popover-foreground: 150 10% 15%;
+
+    --primary: 120 40% 35%;
+    --primary-foreground: 60 10% 95%;
+
+    --secondary: 60 6% 88%;
+    --secondary-foreground: 150 8% 25%;
+
+    --muted: 60 5% 85%;
+    --muted-foreground: 150 8% 35%;
+
+    --accent: 35 60% 50%;
+    --accent-foreground: 60 10% 95%;
+
+    --destructive: 0 62.8% 40%;
+    --destructive-foreground: 60 10% 95%;
+
+    --border: 60 6% 82%;
+    --input: 60 6% 82%;
+    --ring: 120 40% 35%;
+
+    --radius: 0.25rem;
+
+
+    --glow-green: 120 50% 40%;
+    --earth-brown: 30 30% 35%;
+    --stone-gray: 200 5% 45%;
+    --gold: 45 80% 45%;
+  }
+
+  .dark {
+    --background: 150 10% 8%;
+    --foreground: 80 20% 90%;
+
+    --card: 150 8% 12%;
+    --card-foreground: 80 20% 90%;
+
+    --popover: 150 8% 12%;
+    --popover-foreground: 80 20% 90%;
+
+    --primary: 120 40% 45%;
+    --primary-foreground: 150 10% 8%;
+
+    --secondary: 150 8% 16%;
+    --secondary-foreground: 80 20% 85%;
+
+    --muted: 150 6% 18%;
+    --muted-foreground: 80 10% 55%;
+
+    --accent: 35 60% 50%;
+    --accent-foreground: 150 10% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 150 8% 20%;
+    --input: 150 8% 20%;
+    --ring: 120 40% 45%;
+
+    --radius: 0.25rem;
+
+
+    --glow-green: 120 50% 50%;
+    --earth-brown: 30 30% 25%;
+    --stone-gray: 200 5% 35%;
+    --gold: 45 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  ::selection {
+    background: hsl(120 40% 45% / 0.3);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .font-body {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .text-glow {
+    /* disabled for a plainer look */
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2), 0 0 0 1px hsl(var(--border));
+  }
+
+  .pixel-border {
+    box-shadow: inset 0 0 0 2px hsl(var(--border));
+  }
+}
