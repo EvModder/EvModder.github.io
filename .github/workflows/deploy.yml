@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  paths:
+    - 'website/**' # Trigger only if files inside this folder change
   workflow_dispatch:
 
 permissions:
@@ -17,9 +19,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
     steps:
       - uses: actions/checkout@v4
-
       - uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
@@ -31,7 +35,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: website/dist
 
   deploy:
     needs: build

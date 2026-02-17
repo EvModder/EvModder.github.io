@@ -127,7 +127,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Other Projects */}
+        {/* More Projects */}
         <section className="mb-16">
           <h2 className="font-display text-sm font-bold text-muted-foreground uppercase tracking-widest mb-6">
             More Projects
@@ -149,7 +149,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="max-w-5xl mx-auto px-6 text-center text-xs text-muted-foreground font-display">
-          EvModder &middot; 773 contributions in the last year &middot; Port Lockroy
+          Compassion &middot; Conscientiousness &middot; Objectivism &middot; Geomorphology
         </div>
       </footer>
     </div>

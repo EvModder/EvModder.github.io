@@ -82,15 +82,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "HorseOwners",
-    description: "Horse ownership management plugin for Minecraft servers",
-    language: "Java",
-    stars: 2,
-    forks: 0,
-    url: "https://github.com/EvModder/HorseOwners",
-    topics: [],
-  },
-  {
     name: "KalahGame",
     description: "The Ultimate in competitive Kalah — AI reigned supreme over all other AIs from a class of 300+ students",
     language: "Java",
@@ -103,14 +94,27 @@ export const projects: Project[] = [
     ],
     featured: true,
   },
+  
   // === MORE PROJECTS ===
   {
-    name: "Eventials",
-    description: "Collection of simple yet massively enhancing tools for a Bukkit/Spigot/Paper Minecraft server",
+    name: "ChatManager",
+    description: "Chat-filter plugin for Minecraft servers (undergoing redesign)",
     language: "Java",
-    stars: 3,
+    stars: 1,
     forks: 0,
-    url: "https://github.com/EvModder/Eventials",
+    url: "https://github.com/EvModder/ChatManager",
+    topics: [],
+    subLinks: [
+      { label: "Bukkit", url: "https://dev.bukkit.org/projects/ev-cleanchat" },
+    ],
+  },
+  {
+    name: "HorseOwners",
+    description: "Horse ownership management plugin for Minecraft servers",
+    language: "Java",
+    stars: 2,
+    forks: 0,
+    url: "https://github.com/EvModder/HorseOwners",
     topics: [],
   },
   {
@@ -123,16 +127,13 @@ export const projects: Project[] = [
     topics: [],
   },
   {
-    name: "ChatManager",
-    description: "Chat-filter plugin for Minecraft servers (undergoing redesign)",
+    name: "Eventials",
+    description: "Collection of simple yet massively enhancing tools for a Bukkit/Spigot/Paper Minecraft server",
     language: "Java",
-    stars: 1,
+    stars: 3,
     forks: 0,
-    url: "https://github.com/EvModder/ChatManager",
+    url: "https://github.com/EvModder/Eventials",
     topics: [],
-    subLinks: [
-      { label: "Bukkit", url: "https://dev.bukkit.org/projects/ev-cleanchat" },
-    ],
   },
   {
     name: "VanillaPaper",
@@ -188,7 +189,6 @@ export const projects: Project[] = [
     url: "https://github.com/EvModder/PermissionsBukkit",
     topics: [],
   },
-  // Head-related plugins (grouped)
   {
     name: "ChangeHeads",
     description: "Adds a command to set a new texture for a player head",
@@ -253,6 +253,15 @@ export const projects: Project[] = [
     topics: [],
   },
   {
+    name: "MordorSword",
+    description: "A unique weapon plugin for Minecraft",
+    language: "Java",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/EvModder/MordorSword",
+    topics: [],
+  },
+  {
     name: "HardcoreTweaks",
     description: "Hardcore-server management tools for transparency to players",
     language: "Java",
@@ -268,15 +277,6 @@ export const projects: Project[] = [
     stars: 0,
     forks: 0,
     url: "https://github.com/EvModder/MuteDeaths",
-    topics: [],
-  },
-  {
-    name: "MordorSword",
-    description: "A unique weapon plugin for Minecraft",
-    language: "Java",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/EvModder/MordorSword",
     topics: [],
   },
 ];
