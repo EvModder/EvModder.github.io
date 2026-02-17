@@ -17,7 +17,7 @@ export function ProjectCard({ project, stats }: Props) {
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block bg-card border border-border rounded-lg p-5 card-hover pixel-border group"
+      className="block bg-card rounded-lg p-5 card-hover pixel-border group"
     >
       <div className="flex items-start justify-between mb-3">
         <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors">
@@ -65,15 +65,24 @@ export function ProjectCard({ project, stats }: Props) {
               {link.label}
             </a>
           ))}
-          {project.labels?.map((label) => (
-            <span
-              key={label}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-display font-medium bg-secondary text-muted-foreground rounded"
-            >
-              <Tag className="w-3 h-3" />
-              {label}
-            </span>
-          ))}
+          {project.labels?.map((label) => {
+            const value = label.replace(/^[^:]+:\s*/, "");
+            return (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-display font-medium bg-secondary text-muted-foreground rounded cursor-pointer hover:text-foreground transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(value);
+                }}
+                title={`Click to copy: ${value}`}
+              >
+                <Tag className="w-3 h-3" />
+                {label}
+              </span>
+            );
+          })}
         </div>
       )}
 

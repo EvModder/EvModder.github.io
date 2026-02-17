@@ -120,6 +120,6 @@
   }
 
   .pixel-border {
-    box-shadow: inset 0 0 0 2px hsl(var(--border));
+    border: 2px solid hsl(var(--border));
   }
 }

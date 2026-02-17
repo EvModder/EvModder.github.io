@@ -24,7 +24,7 @@ const Index = () => {
             <img
               src={profileIcon}
               alt="EvModder avatar"
-              className="w-20 h-20 rounded-lg border-2 border-border pixel-border"
+              className="w-20 h-20 rounded-lg pixel-border"
               style={{ imageRendering: "pixelated" }}
             />
             <div>

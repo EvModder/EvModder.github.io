@@ -58,19 +58,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "EvLib",
-    description: "A collection of reoccurring/interesting functions that many Minecraft plugins utilize",
-    language: "Java",
-    stars: 2,
-    forks: 3,
-    url: "https://github.com/EvModder/EvLib",
-    topics: [],
-    subLinks: [
-      { label: "Docs", url: "https://evmodder.github.io/EvLib/" },
-    ],
-    featured: true,
-  },
-  {
     name: "Leaf",
     description: "Leafcraft server config files — feel free to suggest changes via PR or comment on anything",
     language: "Shell",
@@ -79,6 +66,19 @@ export const projects: Project[] = [
     url: "https://github.com/EvModder/Leaf",
     topics: ["configuration", "minecraft", "server", "vanilla"],
     labels: ["IP: leafcraft.org"],
+    featured: true,
+  },
+  {
+    name: "EvLib",
+    description: "A collection of reoccurring/interesting functions that many Minecraft plugins utilize",
+    language: "Java",
+    stars: 2,
+    forks: 3,
+    url: "https://github.com/EvModder/EvLib",
+    topics: [],
+    subLinks: [
+      { label: "API Docs", url: "https://evmodder.github.io/EvLib/" },
+    ],
     featured: true,
   },
   {
@@ -98,6 +98,9 @@ export const projects: Project[] = [
     forks: 0,
     url: "https://github.com/EvModder/KalahGame",
     topics: ["ai", "astar", "gui", "java"],
+    subLinks: [
+      { label: "Play", url: "https://kalah.cf" },
+    ],
     featured: true,
   },
   // === MORE PROJECTS ===
