@@ -8,6 +8,7 @@ const linkIcons: Record<string, string> = {
   "Bukkit": "🪣",
   "API Docs": "📖",
   "Docs": "📖",
+  "PNG → NBT": "🖼️",
   "Play": "▶",
   "MapArt Tools": "🗺️",
   "Modrinth": "🟢"
@@ -17,6 +18,7 @@ const linkTitles: Record<string, string> = {
   "Bukkit": "View on Bukkit.org",
   "API Docs": "Browse API documentation",
   "Docs": "Browse documentation",
+  "PNG → NBT": "Open PNG → NBT converter",
   "Play": "Play online",
   "MapArt Tools": "Open MapArt Tools",
   "Modrinth": "View on Modrinth"
