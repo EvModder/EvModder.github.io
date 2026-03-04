@@ -1,9 +1,8 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
     <title>EvModder</title>
     <meta name="description" content="EvModder's project portfolio — Minecraft plugins and more" />
     <meta name="author" content="EvModder" />
@@ -14,6 +13,13 @@
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary" />
+    <script>
+      (() => {
+        const t = localStorage.getItem("theme");
+        const dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
   </head>
 
   <body>

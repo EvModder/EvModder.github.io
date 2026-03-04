@@ -5,7 +5,6 @@ export interface Project {
   stars: number;
   forks: number;
   url: string;
-  homepage?: string;
   topics: string[];
   subLinks?: { label: string; url: string }[];
   labels?: string[];
@@ -21,7 +20,6 @@ export const projects: Project[] = [
     stars: 36,
     forks: 29,
     url: "https://github.com/EvModder/DropHeads",
-    homepage: "https://evmodder.net/DropHeads/",
     topics: ["bukkit", "dropheads", "heads", "minecraft"],
     subLinks: [
       { label: "Bukkit", url: "https://dev.bukkit.org/projects/dropheads" },
@@ -36,7 +34,6 @@ export const projects: Project[] = [
     stars: 3,
     forks: 1,
     url: "https://github.com/EvModder/EvMod",
-    homepage: "https://evmodder.net/EvMod/",
     topics: [],
     subLinks: [
       { label: "Modrinth", url: "https://modrinth.com/mod/evmod" },
@@ -46,15 +43,14 @@ export const projects: Project[] = [
   },
   {
     name: "Renewable",
-    description: "Encourage sustainability in Minecraft! Detects when unrenewable items are destroyed or irreversibly changed",
+    description:
+      "Encourage sustainability in Minecraft! Detects when unrenewable items are destroyed or irreversibly changed",
     language: "Java",
     stars: 3,
     forks: 0,
     url: "https://github.com/EvModder/Renewable",
     topics: [],
-    subLinks: [
-      { label: "Bukkit", url: "https://dev.bukkit.org/projects/renewable" },
-    ],
+    subLinks: [{ label: "Bukkit", url: "https://dev.bukkit.org/projects/renewable" }],
     featured: true,
   },
   {
@@ -76,38 +72,45 @@ export const projects: Project[] = [
     forks: 3,
     url: "https://github.com/EvModder/EvLib",
     topics: [],
-    subLinks: [
-      { label: "API Docs", url: "https://evmodder.net/EvLib/" },
-    ],
+    subLinks: [{ label: "API Docs", url: "https://evmodder.net/EvLib/" }],
     featured: true,
   },
   {
     name: "KalahGame",
-    description: "The Ultimate in competitive Kalah — AI reigned supreme over all other AIs from a class of 300+ students",
+    description:
+      "The Ultimate in competitive Kalah — AI reigned supreme over all other AIs from a class of 300+ students",
     language: "Java",
     stars: 1,
     forks: 0,
     url: "https://github.com/EvModder/KalahGame",
     topics: ["ai", "astar", "gui", "java"],
-    subLinks: [
-      { label: "Play", url: "https://kalah.cf" },
-    ],
+    subLinks: [{ label: "Play", url: "https://kalah.cf" }],
     featured: true,
   },
-  
-  // === MORE PROJECTS ===
+  {
+    name: "PNG-to-NBT",
+    description: "Convert PNG images to Minecraft NBT map art files",
+    language: "Java",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/EvModder/PNG-to-NBT",
+    topics: [],
+    subLinks: [{ label: "MapArt Tools", url: "https://evmodder.net/PNG-to-NBT/" }],
+    featured: true,
+  },
   {
     name: "ChatManager",
-    description: "Chat-filter plugin for Minecraft servers (undergoing redesign)",
+    description: "All inclusive Minecraft chat filter.",
     language: "Java",
     stars: 1,
     forks: 0,
     url: "https://github.com/EvModder/ChatManager",
     topics: [],
-    subLinks: [
-      { label: "Bukkit", url: "https://dev.bukkit.org/projects/ev-cleanchat" },
-    ],
+    subLinks: [{ label: "Bukkit", url: "https://dev.bukkit.org/projects/ev-cleanchat" }],
+    featured: true,
   },
+
+  // === MORE PROJECTS ===
   {
     name: "HorseOwners",
     description: "Horse ownership management plugin for Minecraft servers",
@@ -226,21 +229,21 @@ export const projects: Project[] = [
     topics: [],
   },
   {
+    name: "MuteDeaths",
+    description: "Adds a command to mute deaths (or kill spam) from specific players",
+    language: "Java",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/EvModder/MuteDeaths",
+    topics: [],
+  },
+  {
     name: "LoreTags",
     description: "Adds 3 lore tags: Uncopyable, Unplaceable, and Ender-cursed",
     language: "Java",
     stars: 0,
     forks: 0,
     url: "https://github.com/EvModder/LoreTags",
-    topics: [],
-  },
-  {
-    name: "ItemShop",
-    description: "Item shop plugin for Minecraft servers",
-    language: "Java",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/EvModder/ItemShop",
     topics: [],
   },
   {
@@ -254,11 +257,20 @@ export const projects: Project[] = [
   },
   {
     name: "MordorSword",
-    description: "A unique weapon plugin for Minecraft",
+    description: "Swords with magic powers",
     language: "Java",
     stars: 0,
     forks: 0,
     url: "https://github.com/EvModder/MordorSword",
+    topics: [],
+  },
+  {
+    name: "ItemShop",
+    description: "Item shop plugin for Minecraft servers",
+    language: "Java",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/EvModder/ItemShop",
     topics: [],
   },
   {
@@ -271,12 +283,21 @@ export const projects: Project[] = [
     topics: [],
   },
   {
-    name: "MuteDeaths",
-    description: "Adds a command to mute deaths (or kill spam) from specific players",
+    name: "EvPrison",
+    description: "Feature-packed prison management plugin for Minecraft servers",
+    language: "Java",
+    stars: 1,
+    forks: 1,
+    url: "https://github.com/EvModder/EvPrison",
+    topics: [],
+  },
+  {
+    name: "Archived-Plugins",
+    description: "Archive of older and inactive Minecraft plugins",
     language: "Java",
     stars: 0,
     forks: 0,
-    url: "https://github.com/EvModder/MuteDeaths",
+    url: "https://github.com/EvModder/Archived-Plugins",
     topics: [],
   },
 ];
