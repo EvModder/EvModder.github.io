@@ -1,10 +1,9 @@
-import { Github, Heart, Package } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import profileIcon from "@/assets/profile-icon.png";
 import { projects } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useGitHubStats } from "@/hooks/useGitHubStats";
+import { LinkIcon } from "@/components/LinkIcon";
 
 const PROFILE_LINKS = [
   { href: "http://www.altcraft.net", label: "AltCraft", className: "hover:underline" },
@@ -15,14 +14,13 @@ const PROFILE_LINKS = [
 interface CtaLink {
   href: string;
   label: string;
-  Icon: LucideIcon;
   title?: string;
   primary?: boolean;
 }
 const CTA_LINKS: CtaLink[] = [
-  { href: "https://github.com/EvModder", label: "GitHub", title: "All my projects", Icon: Github, primary: true },
-  { href: "https://dev.bukkit.org/members/evmodder/projects", label: "Bukkit", title: "My published plugins", Icon: Package },
-  { href: "https://ko-fi.com/evmodder", label: "Ko-fi", title: "Buy me a coffee!", Icon: Heart },
+  { href: "https://github.com/EvModder", label: "GitHub", title: "All my projects", primary: true },
+  { href: "https://dev.bukkit.org/members/evmodder/projects", label: "Bukkit", title: "My published plugins" },
+  { href: "https://ko-fi.com/evmodder", label: "Ko-fi", title: "Buy me a coffee!" },
 ];
 
 interface CtaButtonsProps {
@@ -34,7 +32,7 @@ const CtaButtons = ({
   buttonClass = "",
 }: CtaButtonsProps) => (
   <div className={containerClass}>
-    {CTA_LINKS.map(({ href, label, title, Icon, primary }) => (
+    {CTA_LINKS.map(({ href, label, title, primary }) => (
       <a
         key={href}
         href={href}
@@ -47,7 +45,7 @@ const CtaButtons = ({
             : "bg-secondary text-secondary-foreground hover:bg-muted"
         } ${buttonClass}`}
       >
-        <Icon className="w-4 h-4" />
+        <LinkIcon name={label} className="w-4 h-4 shrink-0" />
         {label}
       </a>
     ))}
@@ -56,11 +54,18 @@ const CtaButtons = ({
 
 const ProfileLinks = ({ className = "text-muted-foreground text-lg mb-0.5" }: { className?: string }) => (
   <p className={className}>
-    {PROFILE_LINKS.map(({ href, label, className: linkClass }, i) => (
+    {PROFILE_LINKS.map(({ href, label, className: linkClass, iconOnly, title }, i) => (
       <span key={href}>
         {i > 0 && <> &middot; </>}
-        <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-          {label}
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClass}
+          title={title}
+          aria-label={title || label}
+        >
+          {iconOnly ? <LinkIcon name={label} className="inline h-[18px] w-[18px] align-[-2px]" /> : label}
         </a>
       </span>
     ))}

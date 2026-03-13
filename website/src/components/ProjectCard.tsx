@@ -1,19 +1,9 @@
 import { useState } from "react";
-import { Star, GitFork, ExternalLink, Globe, Tag, Check } from "lucide-react";
+import { Star, GitFork, ExternalLink, Tag, Check } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { languageColors } from "@/data/projects";
 import type { RepoStats } from "@/hooks/useGitHubStats";
-
-const linkIcons: Record<string, string> = {
-  "Add-ons": "🧩",
-  "Bukkit": "🪣",
-  "API Docs": "📖",
-  "Docs": "📖",
-  "PNG → NBT": "🖼️",
-  "Play": "▶",
-  "MapArt Tools": "🗺️",
-  "Modrinth": "🟢"
-};
+import { LinkIcon } from "@/components/LinkIcon";
 
 const linkTitles: Record<string, string> = {
   "Add-ons": "View add-ons",
@@ -25,14 +15,6 @@ const linkTitles: Record<string, string> = {
   "MapArt Tools": "Open MapArt Tools",
   "Modrinth": "View on Modrinth"
 };
-
-function getLinkIcon(label: string) {
-  const icon = linkIcons[label];
-  if (icon) {
-    return <span className="text-[11px] leading-none">{icon}</span>;
-  }
-  return <Globe className="w-3 h-3" />;
-}
 
 function getLinkTitle(label: string, projectName: string) {
   return linkTitles[label] || `Open ${label} for ${projectName}`;
@@ -95,7 +77,7 @@ export function ProjectCard({ project, stats }: Props) {
               title={getLinkTitle(link.label, project.name)}
               className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-display font-medium bg-secondary text-primary rounded hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              {getLinkIcon(link.label)}
+              <LinkIcon name={link.label} className="w-3.5 h-3.5 shrink-0" />
               {link.label}
             </a>
           ))}
