@@ -24,6 +24,7 @@ export const projects: Project[] = [
     subLinks: [
       { label: "Bukkit", url: "https://dev.bukkit.org/projects/dropheads" },
       { label: "API Docs", url: "https://evmodder.net/DropHeads/" },
+      { label: "Add-ons", url: "https://dev.bukkit.org/projects/dropheads/pages/extras" },
     ],
     featured: true,
   },

@@ -5,6 +5,7 @@ import { languageColors } from "@/data/projects";
 import type { RepoStats } from "@/hooks/useGitHubStats";
 
 const linkIcons: Record<string, string> = {
+  "Add-ons": "🧩",
   "Bukkit": "🪣",
   "API Docs": "📖",
   "Docs": "📖",
@@ -15,6 +16,7 @@ const linkIcons: Record<string, string> = {
 };
 
 const linkTitles: Record<string, string> = {
+  "Add-ons": "View add-ons",
   "Bukkit": "View on Bukkit.org",
   "API Docs": "Browse API documentation",
   "Docs": "Browse documentation",
