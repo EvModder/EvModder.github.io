@@ -1,20 +1,16 @@
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import { resolve } from "node:path";
 
-// https://vitejs.dev/config/
-export default defineConfig(() => ({
+export default defineConfig({
+  build: { target: "esnext" },
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: { "@": resolve(import.meta.dirname, "src") },
+  },
   server: {
     host: "::",
     port: 8080,
-    hmr: {
-      overlay: false,
-    },
   },
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-}));
+});

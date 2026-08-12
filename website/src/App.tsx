@@ -5,11 +5,18 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useGitHubStats } from "@/hooks/useGitHubStats";
 import { LinkIcon } from "@/components/LinkIcon";
 
-const PROFILE_LINKS = [
+interface ProfileLink {
+  href: string;
+  label: string;
+  className: string;
+  iconOnly?: boolean;
+  title?: string;
+}
+const PROFILE_LINKS: readonly ProfileLink[] = [
   { href: "http://www.altcraft.net", label: "AltCraft", className: "hover:underline" },
   { href: "https://namemc.com/profile/EvModder", label: "NameMC", className: "hover:underline" },
   { href: "https://www.youtube.com/watch?v=LDU_Txk06tM", label: "🦀", className: "hover:opacity-80 transition-opacity" },
-] as const;
+];
 
 interface CtaLink {
   href: string;
