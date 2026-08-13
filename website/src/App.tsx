@@ -27,6 +27,7 @@ interface CtaLink {
 const CTA_LINKS: CtaLink[] = [
   { href: "https://github.com/EvModder", label: "GitHub", title: "All my projects", primary: true },
   { href: "https://dev.bukkit.org/members/evmodder/projects", label: "Bukkit", title: "My published plugins" },
+  { href: "https://www.youtube.com/@evmodder", label: "YouTube", title: "My YouTube channel" },
   { href: "https://ko-fi.com/evmodder", label: "Ko-fi", title: "Buy me a coffee!" },
 ];
 
@@ -46,7 +47,8 @@ const CtaButtons = ({
         target="_blank"
         rel="noopener noreferrer"
         title={title}
-        className={`inline-flex items-center justify-center gap-2 font-display font-medium rounded transition-colors px-4 py-2 text-sm ${
+        aria-label={label}
+        className={`inline-flex h-9 items-center justify-center gap-2 rounded px-4 py-2 font-display text-sm font-medium transition-colors min-[383px]:gap-1 min-[383px]:px-0.5 min-[383px]:text-xs min-[34rem]:gap-2 min-[34rem]:px-4 min-[34rem]:text-sm min-[69rem]:grid min-[69rem]:grid-cols-[1rem_4rem] min-[69rem]:text-left ${
           primary
             ? "bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
             : "bg-secondary text-secondary-foreground hover:bg-muted"
@@ -131,8 +133,8 @@ const App = () => {
 
             <aside className="mt-4 w-full min-[69rem]:mt-0 min-[69rem]:w-[184px] min-[69rem]:shrink-0 min-[69rem]:self-stretch">
               <CtaButtons
-                buttonClass="min-[69rem]:w-full min-[69rem]:py-2.5"
-                containerClass="flex flex-wrap gap-3 min-[69rem]:h-full min-[69rem]:flex-col min-[69rem]:items-center min-[69rem]:justify-between"
+                buttonClass="w-full min-[69rem]:h-full min-[69rem]:py-0"
+                containerClass="grid grid-cols-2 gap-3 min-[383px]:grid-cols-4 min-[69rem]:h-full min-[69rem]:grid-cols-1 min-[69rem]:grid-rows-4 min-[69rem]:gap-2"
               />
             </aside>
           </div>
