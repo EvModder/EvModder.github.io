@@ -7,12 +7,14 @@ import bashIcon from "@/assets/languages/bash.svg";
 import cIcon from "@/assets/languages/c.svg";
 import cppIcon from "@/assets/languages/c-plusplus.svg";
 import javaIcon from "@/assets/languages/java.svg";
+import typescriptIcon from "@/assets/languages/typescript.svg";
 
 const languageIcons: Record<Project["language"], string> = {
   C: cIcon,
   "C++": cppIcon,
   Java: javaIcon,
   Shell: bashIcon,
+  TypeScript: typescriptIcon,
 };
 
 const linkTitles: Record<string, string> = {

@@ -1,4 +1,4 @@
-type Language = "C" | "C++" | "Java" | "Shell";
+type Language = "C" | "C++" | "Java" | "Shell" | "TypeScript";
 
 export interface Project {
   name: string;
@@ -45,20 +45,19 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "Renewable",
-    description:
-      "Encourage sustainability in Minecraft! Detects when unrenewable items are destroyed or irreversibly changed",
-    language: "Java",
-    stars: 3,
+    name: "PNG-to-NBT",
+    description: "Convert PNG images to Minecraft NBT map art files",
+    language: "TypeScript",
+    stars: 0,
     forks: 0,
-    url: "https://github.com/EvModder/Renewable",
-    topics: ["item-storage", "minecraft", "renewable", "server"],
-    subLinks: [{ label: "Bukkit", url: "https://dev.bukkit.org/projects/renewable" }],
+    url: "https://github.com/EvModder/PNG-to-NBT",
+    topics: ["color-suppression", "mapart", "minecraft", "nbt", "schematic", "website"],
+    subLinks: [{ label: "PNG → NBT", url: "https://evmodder.net/PNG-to-NBT/" }],
     featured: true,
   },
   {
     name: "Leaf",
-    description: "Leafcraft server config files — feel free to suggest changes via PR or comment on anything",
+    description: "Server config files, feel free to suggest changes (via PR).",
     language: "Shell",
     stars: 1,
     forks: 0,
@@ -68,14 +67,15 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "EvLib",
-    description: "A collection of reoccurring/interesting functions that many Minecraft plugins utilize",
+    name: "Renewable",
+    description:
+      "Encourage sustainability in Minecraft! Detects when unrenewable items are destroyed or irreversibly changed",
     language: "Java",
-    stars: 2,
-    forks: 3,
-    url: "https://github.com/EvModder/EvLib",
-    topics: ["bukkit", "fabric", "lib", "minecraft-api"],
-    subLinks: [{ label: "API Docs", url: "https://evmodder.net/EvLib/" }],
+    stars: 3,
+    forks: 0,
+    url: "https://github.com/EvModder/Renewable",
+    topics: ["item-storage", "minecraft", "renewable", "server"],
+    subLinks: [{ label: "Bukkit", url: "https://dev.bukkit.org/projects/renewable" }],
     featured: true,
   },
   {
@@ -91,14 +91,14 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "PNG-to-NBT",
-    description: "Convert PNG images to Minecraft NBT map art files",
+    name: "EvLib",
+    description: "A collection of reoccurring/interesting functions.",
     language: "Java",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/EvModder/PNG-to-NBT",
-    topics: ["color-suppression", "mapart", "minecraft", "nbt", "schematic", "website"],
-    subLinks: [{ label: "PNG → NBT", url: "https://evmodder.net/PNG-to-NBT/" }],
+    stars: 2,
+    forks: 3,
+    url: "https://github.com/EvModder/EvLib",
+    topics: ["bukkit", "fabric", "lib", "minecraft-api"],
+    subLinks: [{ label: "API Docs", url: "https://evmodder.net/EvLib/" }],
     featured: true,
   },
   {
