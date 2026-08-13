@@ -101,3 +101,5 @@ body {
 }
 
 .pixel-border { border: 2px solid hsl(var(--border)); }
+
+.dark .language-icon-shell { filter: invert(1); }

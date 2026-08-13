@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { Star, GitFork, ExternalLink, Tag, Check } from "lucide-react";
 import type { Project } from "@/data/projects";
-import { languageColors } from "@/data/projects";
 import type { RepoStats } from "@/hooks/useGitHubStats";
 import { LinkIcon } from "@/components/LinkIcon";
+import bashIcon from "@/assets/languages/bash.svg";
+import cIcon from "@/assets/languages/c.svg";
+import cppIcon from "@/assets/languages/c-plusplus.svg";
+import javaIcon from "@/assets/languages/java.svg";
+
+const languageIcons: Record<Project["language"], string> = {
+  C: cIcon,
+  "C++": cppIcon,
+  Java: javaIcon,
+  Shell: bashIcon,
+};
 
 const linkTitles: Record<string, string> = {
   "Add-ons": "View add-ons",
@@ -48,7 +58,11 @@ export function ProjectCard({ project, stats }: Props) {
 
       <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
         <span className="flex items-center gap-1.5">
-          <span className={`w-2.5 h-2.5 rounded-sm ${languageColors[project.language] || "bg-muted-foreground"}`} />
+          <img
+            src={languageIcons[project.language]}
+            alt=""
+            className={`-m-0.5 h-[18px] w-[18px] object-contain${project.language === "Shell" ? " language-icon-shell" : ""}`}
+          />
           {project.language}
         </span>
         {stars > 0 && (

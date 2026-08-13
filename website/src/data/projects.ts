@@ -1,7 +1,9 @@
+type Language = "C" | "C++" | "Java" | "Shell";
+
 export interface Project {
   name: string;
   description: string;
-  language: string;
+  language: Language;
   stars: number;
   forks: number;
   url: string;
@@ -302,10 +304,3 @@ export const projects: Project[] = [
     topics: [],
   },
 ];
-
-export const languageColors: Record<string, string> = {
-  Java: "bg-accent",
-  C: "bg-stone-gray",
-  "C++": "bg-primary",
-  Shell: "bg-primary",
-};
