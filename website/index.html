@@ -23,8 +23,11 @@
     <meta name="twitter:card" content="summary" />
     <script>
       (() => {
-        const t = localStorage.getItem("theme");
-        const dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+        let dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        try {
+          const theme = localStorage.getItem("theme");
+          if (theme === "light" || theme === "dark") dark = theme === "dark";
+        } catch {}
         document.documentElement.classList.toggle("dark", dark);
       })();
     </script>

@@ -2,11 +2,11 @@
   "name": "evmodder.net",
   "private": true,
   "type": "module",
-  "packageManager": "bun@1.3.14",
+  "packageManager": "bun@1.4.3",
   "scripts": {
-    "dev": "vite website",
-    "build": "tsc -b website && vite build website",
-    "preview": "vite preview website"
+    "dev": "bun --bun vite website",
+    "build": "bun check -p website && bun --bun vite build website",
+    "preview": "bun --bun vite preview website"
   },
   "dependencies": {
     "lucide-react": "latest",
@@ -20,7 +20,6 @@
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
     "tailwindcss": "latest",
-    "typescript": "latest",
     "vite": "latest"
   }
 }

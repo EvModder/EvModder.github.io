@@ -35,7 +35,7 @@ function ModrinthIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function LinkIcon({ name, className = "w-4 h-4" }: Props) {
+export function LinkIcon({ name, className = "size-4" }: Props) {
   switch (name) {
     case "GitHub":
       return <GitHubIcon className={className} aria-hidden="true" />;

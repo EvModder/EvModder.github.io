@@ -10,7 +10,7 @@ export function ThemeToggle() {
       className="p-2 rounded-md bg-secondary text-secondary-foreground hover:bg-muted transition-colors"
       aria-label="Toggle theme"
     >
-      {resolved === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {resolved === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </button>
   );
 }

@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 
-type StoredTheme = "light" | "dark";
-type ResolvedTheme = StoredTheme;
+type Theme = "light" | "dark";
 
-const getSystemTheme = (): ResolvedTheme =>
+const getSystemTheme = (): Theme =>
   matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
-const readStoredTheme = (): StoredTheme | null => {
-  const theme = localStorage.getItem("theme");
-  return theme === "light" || theme === "dark" ? theme : null;
+const readStoredTheme = (): Theme | null => {
+  try {
+    const theme = localStorage.getItem("theme");
+    return theme === "light" || theme === "dark" ? theme : null;
+  } catch {
+    return null;
+  }
 };
 
 export function useTheme() {
-  const initialSystemTheme = getSystemTheme();
-  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(initialSystemTheme);
-  const [override, setOverride] = useState<StoredTheme | null>(() => {
+  const [systemTheme, setSystemTheme] = useState(getSystemTheme);
+  const [override, setOverride] = useState<Theme | null>(() => {
     const stored = readStoredTheme();
-    return stored === initialSystemTheme ? null : stored;
+    return stored === systemTheme ? null : stored;
   });
   const resolved = override ?? systemTheme;
 
@@ -33,8 +35,12 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", resolved === "dark");
-    if (override) localStorage.setItem("theme", override);
-    else localStorage.removeItem("theme");
+    try {
+      if (override) localStorage.setItem("theme", override);
+      else localStorage.removeItem("theme");
+    } catch {
+      // Theme changes still work when browser storage is unavailable.
+    }
   }, [override, resolved]);
 
   const toggle = () => {

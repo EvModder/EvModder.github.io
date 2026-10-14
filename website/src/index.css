@@ -1,29 +1,23 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   --font-display: "JetBrains Mono", monospace;
   --font-body: "Space Grotesk", sans-serif;
 
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-stone-gray: hsl(var(--stone-gray));
+  --color-background: hsl(60 10% 95%);
+  --color-foreground: hsl(150 10% 15%);
+  --color-card: hsl(60 8% 92%);
+  --color-primary: hsl(120 40% 35%);
+  --color-primary-foreground: hsl(60 10% 95%);
+  --color-secondary: hsl(60 6% 88%);
+  --color-secondary-foreground: hsl(150 8% 25%);
+  --color-muted: hsl(60 5% 85%);
+  --color-muted-foreground: hsl(150 8% 35%);
+  --color-border: hsl(60 6% 82%);
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-lg: 0.25rem;
+  --radius-md: 0.125rem;
+  --radius-sm: 0;
 
   --animate-fade-in: fade-in 0.5s ease-out forwards;
 }
@@ -31,59 +25,32 @@
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    translate: 0 10px;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    translate: 0 0;
   }
 }
 
-:root {
-  --background: 60 10% 95%;
-  --foreground: 150 10% 15%;
-  --card: 60 8% 92%;
-  --card-foreground: 150 10% 15%;
-  --primary: 120 40% 35%;
-  --primary-foreground: 60 10% 95%;
-  --secondary: 60 6% 88%;
-  --secondary-foreground: 150 8% 25%;
-  --muted: 60 5% 85%;
-  --muted-foreground: 150 8% 35%;
-  --accent: 35 60% 50%;
-  --accent-foreground: 60 10% 95%;
-  --border: 60 6% 82%;
-  --input: 60 6% 82%;
-  --ring: 120 40% 35%;
-  --radius: 0.25rem;
-  --stone-gray: 200 5% 45%;
-}
-
 .dark {
-  --background: 150 10% 8%;
-  --foreground: 80 20% 90%;
-  --card: 150 8% 12%;
-  --card-foreground: 80 20% 90%;
-  --primary: 120 40% 45%;
-  --primary-foreground: 150 10% 8%;
-  --secondary: 150 8% 16%;
-  --secondary-foreground: 80 20% 85%;
-  --muted: 150 6% 18%;
-  --muted-foreground: 80 10% 55%;
-  --accent: 35 60% 50%;
-  --accent-foreground: 150 10% 8%;
-  --border: 150 8% 20%;
-  --input: 150 8% 20%;
-  --ring: 120 40% 45%;
-  --radius: 0.25rem;
-  --stone-gray: 200 5% 35%;
+  --color-background: hsl(150 10% 8%);
+  --color-foreground: hsl(80 20% 90%);
+  --color-card: hsl(150 8% 12%);
+  --color-primary: hsl(120 40% 45%);
+  --color-primary-foreground: hsl(150 10% 8%);
+  --color-secondary: hsl(150 8% 16%);
+  --color-secondary-foreground: hsl(80 20% 85%);
+  --color-muted: hsl(150 6% 18%);
+  --color-muted-foreground: hsl(80 10% 55%);
+  --color-border: hsl(150 8% 20%);
 }
 
-* { border-color: hsl(var(--border)); }
+* { border-color: var(--color-border); }
 
 body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
@@ -91,14 +58,20 @@ body {
 ::selection { background: hsl(120 40% 45% / 0.3); }
 
 .card-hover {
-  transition: all 0.3s;
+  transition: translate 0.3s, box-shadow 0.3s;
 }
 
 .card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2), 0 0 0 1px hsl(var(--border));
+  translate: 0 -2px;
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2), 0 0 0 1px var(--color-border);
 }
 
-.pixel-border { border: 2px solid hsl(var(--border)); }
+.pixel-border { border: 2px solid var(--color-border); }
 
 .dark .language-icon-shell { filter: invert(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in { animation: none; opacity: 1; }
+  .card-hover { transition: none; }
+  .card-hover:hover { translate: none; }
+}

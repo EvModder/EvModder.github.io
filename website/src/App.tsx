@@ -9,8 +9,6 @@ interface ProfileLink {
   href: string;
   label: string;
   className: string;
-  iconOnly?: boolean;
-  title?: string;
 }
 const PROFILE_LINKS: readonly ProfileLink[] = [
   { href: "http://www.altcraft.net", label: "AltCraft", className: "hover:underline" },
@@ -31,15 +29,8 @@ const CTA_LINKS: CtaLink[] = [
   { href: "https://ko-fi.com/evmodder", label: "Ko-fi", title: "Buy me a coffee!" },
 ];
 
-interface CtaButtonsProps {
-  containerClass?: string;
-  buttonClass?: string;
-}
-const CtaButtons = ({
-  containerClass = "flex items-center gap-3 flex-wrap",
-  buttonClass = "",
-}: CtaButtonsProps) => (
-  <div className={containerClass}>
+const CtaButtons = () => (
+  <div className="grid grid-cols-2 gap-3 min-[383px]:grid-cols-4 min-[69rem]:h-full min-[69rem]:grid-cols-1 min-[69rem]:grid-rows-4 min-[69rem]:gap-2">
     {CTA_LINKS.map(({ href, label, title, primary }) => (
       <a
         key={href}
@@ -47,49 +38,42 @@ const CtaButtons = ({
         target="_blank"
         rel="noopener noreferrer"
         title={title}
-        aria-label={label}
-        className={`inline-flex h-9 items-center justify-center gap-2 rounded px-4 py-2 font-display text-sm font-medium transition-colors min-[383px]:gap-1 min-[383px]:px-0.5 min-[383px]:text-xs min-[34rem]:gap-2 min-[34rem]:px-4 min-[34rem]:text-sm min-[69rem]:grid min-[69rem]:grid-cols-[1rem_4rem] min-[69rem]:text-left ${
+        className={`inline-flex h-9 w-full items-center justify-center gap-2 rounded px-4 py-2 font-display text-sm font-medium min-[383px]:gap-1 min-[383px]:px-0.5 min-[383px]:text-xs min-[34rem]:gap-2 min-[34rem]:px-4 min-[34rem]:text-sm min-[69rem]:grid min-[69rem]:h-full min-[69rem]:grid-cols-[1rem_4rem] min-[69rem]:py-0 min-[69rem]:text-left ${
           primary
             ? "bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-            : "bg-secondary text-secondary-foreground hover:bg-muted"
-        } ${buttonClass}`}
+            : "bg-secondary text-secondary-foreground hover:bg-muted transition-colors"
+        }`}
       >
-        <LinkIcon name={label} className="w-4 h-4 shrink-0" />
+        <LinkIcon name={label} className="size-4 shrink-0" />
         {label}
       </a>
     ))}
   </div>
 );
 
-const ProfileLinks = ({ className = "text-muted-foreground text-lg mb-0.5" }: { className?: string }) => (
-  <p className={className}>
-    {PROFILE_LINKS.map(({ href, label, className: linkClass, iconOnly, title }, i) => (
+const ProfileLinks = () => (
+  <p className="text-lg leading-none text-muted-foreground">
+    {PROFILE_LINKS.map(({ href, label, className }, i) => (
       <span key={href}>
         {i > 0 && <> &middot; </>}
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className={linkClass}
-          title={title}
-          aria-label={title || label}
+          className={className}
         >
-          {iconOnly ? <LinkIcon name={label} className="inline h-[18px] w-[18px] align-[-2px]" /> : label}
+          {label}
         </a>
       </span>
     ))}
   </p>
 );
 
+const featured = projects.filter(project => project.featured);
+const others = projects.filter(project => !project.featured);
+
 const App = () => {
   const stats = useGitHubStats();
-  const [featured, others] = projects.reduce(
-    ([f, o], project) => {
-      (project.featured ? f : o).push(project);
-      return [f, o];
-    },
-    [[] as typeof projects, [] as typeof projects],
-  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -105,12 +89,14 @@ const App = () => {
                 <img
                   src={profileIcon}
                   alt="EvModder avatar"
-                  className="w-16 h-16 rounded-lg pixel-border"
+                  width={64}
+                  height={64}
+                  className="size-16 rounded-lg pixel-border"
                   style={{ imageRendering: "pixelated" }}
                 />
                 <div className="min-w-0 min-h-16 flex flex-col justify-between">
                   <h1 className="font-display font-bold text-foreground text-3xl leading-none md:text-4xl">EvModder</h1>
-                  <ProfileLinks className="text-lg leading-none text-muted-foreground" />
+                  <ProfileLinks />
                 </div>
               </div>
 
@@ -120,7 +106,7 @@ const App = () => {
                 <p>
                   Feel free to ping me on{" "}
                   <a
-                    href="http://discord.gg/urYADaHvQg"
+                    href="https://discord.gg/urYADaHvQg"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"
@@ -132,10 +118,7 @@ const App = () => {
             </div>
 
             <aside className="mt-4 w-full min-[69rem]:mt-0 min-[69rem]:w-[184px] min-[69rem]:shrink-0 min-[69rem]:self-stretch">
-              <CtaButtons
-                buttonClass="w-full min-[69rem]:h-full min-[69rem]:py-0"
-                containerClass="grid grid-cols-2 gap-3 min-[383px]:grid-cols-4 min-[69rem]:h-full min-[69rem]:grid-cols-1 min-[69rem]:grid-rows-4 min-[69rem]:gap-2"
-              />
+              <CtaButtons />
             </aside>
           </div>
         </div>
