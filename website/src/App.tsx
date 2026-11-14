@@ -109,7 +109,7 @@ const App = () => {
                     href="https://discord.gg/urYADaHvQg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="text-link hover:underline"
                   >
                     Discord
                   </a>
@@ -126,7 +126,7 @@ const App = () => {
 
       <main className="max-w-5xl mx-auto px-6 pt-10 pb-6">
         <section className="mb-10">
-          <h2 className="font-display text-sm font-bold text-primary uppercase tracking-widest mb-5">
+          <h2 className="font-display text-sm font-bold text-foreground uppercase tracking-widest mb-5">
             Featured Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -139,7 +139,7 @@ const App = () => {
         </section>
 
         <section className="mb-16">
-          <h2 className="font-display text-sm font-bold text-muted-foreground uppercase tracking-widest mb-5">
+          <h2 className="font-display text-sm font-bold text-subheading uppercase tracking-widest mb-5">
             More Projects
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

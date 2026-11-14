@@ -43,7 +43,7 @@ export function ProjectCard({ project, stats }: Props) {
     <article className="bg-card rounded-lg p-5 card-hover pixel-border group">
       <a href={project.url} target="_blank" rel="noopener noreferrer" className="block" title={`View ${project.name} on GitHub`}>
         <div className="flex items-start justify-between mb-3">
-          <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+          <h3 className="font-display text-lg font-bold text-foreground group-hover:text-link transition-colors">
             {project.name}
           </h3>
           <ExternalLink className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -86,7 +86,7 @@ export function ProjectCard({ project, stats }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               title={linkTitles[link.label] ?? `Open ${link.label} for ${project.name}`}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-display font-medium bg-secondary text-primary rounded hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-display font-medium bg-secondary text-link rounded hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               <LinkIcon name={link.label} className="size-3.5 shrink-0" />
               {link.label}

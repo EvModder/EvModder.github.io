@@ -8,11 +8,13 @@
   --color-foreground: hsl(150 10% 15%);
   --color-card: hsl(60 8% 92%);
   --color-primary: hsl(120 40% 35%);
+  --color-link: hsl(125 55% 23%);
   --color-primary-foreground: hsl(60 10% 95%);
   --color-secondary: hsl(60 6% 88%);
   --color-secondary-foreground: hsl(150 8% 25%);
   --color-muted: hsl(60 5% 85%);
   --color-muted-foreground: hsl(150 8% 35%);
+  --color-subheading: hsl(150 9% 26%);
   --color-border: hsl(60 6% 82%);
 
   --radius-lg: 0.25rem;
@@ -34,6 +36,7 @@
 }
 
 .dark {
+  --color-link: var(--color-primary);
   --color-background: hsl(150 10% 8%);
   --color-foreground: hsl(80 20% 90%);
   --color-card: hsl(150 8% 12%);
@@ -43,6 +46,7 @@
   --color-secondary-foreground: hsl(80 20% 85%);
   --color-muted: hsl(150 6% 18%);
   --color-muted-foreground: hsl(80 10% 55%);
+  --color-subheading: hsl(80 14% 70%);
   --color-border: hsl(150 8% 20%);
 }
 
@@ -58,11 +62,10 @@ body {
 ::selection { background: hsl(120 40% 45% / 0.3); }
 
 .card-hover {
-  transition: translate 0.3s, box-shadow 0.3s;
+  transition: box-shadow 0.3s;
 }
 
 .card-hover:hover {
-  translate: 0 -2px;
   box-shadow: 0 4px 12px hsl(0 0% 0% / 0.2), 0 0 0 1px var(--color-border);
 }
 
@@ -73,5 +76,4 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in { animation: none; opacity: 1; }
   .card-hover { transition: none; }
-  .card-hover:hover { translate: none; }
 }
