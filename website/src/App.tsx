@@ -4,6 +4,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useGitHubStats } from "@/hooks/useGitHubStats";
 import { LinkIcon } from "@/components/LinkIcon";
+import { SiteFooter } from "@/components/SiteFooter";
 
 interface ProfileLink {
   href: string;
@@ -156,11 +157,7 @@ const App = () => {
         </section>
       </main>
 
-      <footer className="border-t border-border py-8">
-        <div className="max-w-5xl mx-auto px-6 text-center text-xs text-muted-foreground font-display">
-          Compassion &middot; Conscientiousness &middot; Objectivism &middot; Geomorphology
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };

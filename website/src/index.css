@@ -16,6 +16,10 @@
   --color-muted-foreground: hsl(150 8% 35%);
   --color-subheading: hsl(150 9% 26%);
   --color-border: hsl(60 6% 82%);
+  /* My Setup mod sources */
+  --color-modrinth: #00af5c;
+  --color-local: hsl(34 90% 42%);
+  --color-private: hsl(0 65% 48%);
 
   --radius-lg: 0.25rem;
   --radius-md: 0.125rem;
@@ -48,9 +52,18 @@
   --color-muted-foreground: hsl(80 10% 55%);
   --color-subheading: hsl(80 14% 70%);
   --color-border: hsl(150 8% 20%);
+  --color-modrinth: #1bd96a;
+  --color-local: hsl(40 85% 55%);
+  --color-private: hsl(0 70% 64%);
 }
 
 * { border-color: var(--color-border); }
+
+/* My Setup page only: stronger light-mode secondary text and borders for its dense settings tables. */
+:root:not(.dark) .setup-page {
+  --color-muted-foreground: hsl(150 8% 30%);
+  --color-border: hsl(60 6% 75%);
+}
 
 body {
   background-color: var(--color-background);
@@ -70,6 +83,10 @@ body {
 }
 
 .pixel-border { border: 2px solid var(--color-border); }
+
+/* My Setup: a settings card reached from the mod list briefly outlines itself. */
+.card-flash { animation: card-flash 1.8s ease-out; }
+@keyframes card-flash { from, 35% { border-color: var(--color-primary); } }
 
 .dark .language-icon-shell { filter: invert(1); }
 
