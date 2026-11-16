@@ -1,5 +1,5 @@
 import { BookOpen, Coffee, Globe, Image, Map, Package, Play, Puzzle } from "lucide-react";
-import type { SVGProps } from "react";
+import type { ComponentType, SVGProps } from "react";
 
 interface Props {
   name: string;
@@ -35,30 +35,21 @@ function ModrinthIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+const ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  "GitHub": GitHubIcon,
+  "YouTube": YouTubeIcon,
+  "Modrinth": ModrinthIcon,
+  "Ko-fi": Coffee,
+  "Bukkit": Package,
+  "Add-ons": Puzzle,
+  "API Docs": BookOpen,
+  "Docs": BookOpen,
+  "PNG → NBT": Image,
+  "Play": Play,
+  "MapArt Tools": Map,
+};
+
 export function LinkIcon({ name, className = "size-4" }: Props) {
-  switch (name) {
-    case "GitHub":
-      return <GitHubIcon className={className} aria-hidden="true" />;
-    case "YouTube":
-      return <YouTubeIcon className={className} aria-hidden="true" />;
-    case "Modrinth":
-      return <ModrinthIcon className={className} aria-hidden="true" />;
-    case "Ko-fi":
-      return <Coffee className={className} aria-hidden="true" />;
-    case "Bukkit":
-      return <Package className={className} aria-hidden="true" />;
-    case "Add-ons":
-      return <Puzzle className={className} aria-hidden="true" />;
-    case "API Docs":
-    case "Docs":
-      return <BookOpen className={className} aria-hidden="true" />;
-    case "PNG → NBT":
-      return <Image className={className} aria-hidden="true" />;
-    case "Play":
-      return <Play className={className} aria-hidden="true" />;
-    case "MapArt Tools":
-      return <Map className={className} aria-hidden="true" />;
-    default:
-      return <Globe className={className} aria-hidden="true" />;
-  }
+  const Icon = ICONS[name] ?? Globe;
+  return <Icon className={className} aria-hidden="true" />;
 }

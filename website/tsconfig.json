@@ -1,17 +1,13 @@
 {
+  // TypeScript 6+ defaults cover strict mode, the latest target and libs (DOM included) and bundler resolution.
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "module": "Preserve",
-    "skipLibCheck": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true,
+    "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["vite/client", "node"],
+    "types": ["vite/client"],
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src", "vite.config.ts"]

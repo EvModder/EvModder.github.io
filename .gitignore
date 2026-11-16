@@ -1,30 +1,9 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Build/OS generated files
 node_modules
 dist
-dist-ssr
-*.local
 *.tsbuildinfo
-
+*.log
 .DS_Store
+*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Manually ignored files, prompt logs, user notes
+# Local tooling, prompt logs, notes
 work_files/
