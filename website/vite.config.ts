@@ -5,10 +5,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 function setupHtml(html: string) {
-  return html.replaceAll("EvModder's project portfolio — Minecraft plugins and more",
+  return html.replaceAll("ÉvModder's project portfolio — Minecraft plugins and more",
     "The Minecraft mods and settings I use on 2b2t.")
-    .replace("<title>EvModder</title>", "<title>Év’s Setup</title>")
-    .replace('property="og:title" content="EvModder"', 'property="og:title" content="Év’s Setup"')
+    .replace("<title>ÉvModder</title>", "<title>Év’s Setup</title>")
+    .replace('property="og:title" content="ÉvModder"', 'property="og:title" content="Év’s Setup"')
     .replace('href="https://evmodder.net/"', 'href="https://evmodder.net/my-minecraft-setup/"');
 }
 

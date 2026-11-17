@@ -11,6 +11,6 @@ const App = isSetup ? (await import("./MinecraftSetup")).default : (await import
 createRoot(document.getElementById("root")!).render(canonical === "/" || isSetup ? <App /> : (
   <main className="max-w-5xl mx-auto px-6 py-12">
     <h1 className="font-display text-3xl font-bold">Page not found</h1>
-    <a href="/" className="inline-block mt-4 text-link hover:underline">Return to EvModder</a>
+    <a href="/" className="inline-block mt-4 text-link hover:underline">Return to ÉvModder</a>
   </main>
 ));

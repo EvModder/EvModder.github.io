@@ -88,14 +88,14 @@ const App = () => {
               <div className="flex max-w-[calc(100%-4rem)] items-start gap-5 min-[69rem]:max-w-none">
                 <img
                   src={profileIcon}
-                  alt="EvModder avatar"
+                  alt="ÉvModder avatar"
                   width={64}
                   height={64}
                   className="size-16 rounded-lg pixel-border"
                   style={{ imageRendering: "pixelated" }}
                 />
                 <div className="min-w-0 min-h-16 flex flex-col justify-between">
-                  <h1 className="font-display font-bold text-foreground text-3xl leading-none md:text-4xl">EvModder</h1>
+                  <h1 className="font-display font-bold text-foreground text-3xl leading-none md:text-4xl">ÉvModder</h1>
                   <ProfileLinks />
                 </div>
               </div>
