@@ -7,7 +7,10 @@ export type SetupMod = { id: string; name: string } &
   ({ url: string; source?: Exclude<ModSource, "private"> } | { url?: never; source: "private" });
 
 type SettingValue = string | number | boolean;
-// extra: shown only in the "show all" view, not in the default highlights.
+// extra: shown only in the "All" view. Core: features turned on or off, and the main behaviour of a feature
+//   (mode, targets, range, block/item lists). extra: looks (colours, HUD layout, fonts, scale), housekeeping
+//   (update checks, menus, sync), filters and small nudges. Judge a setting by what it is, never by whether its
+//   feature happens to be on. Anything a key toggles (modules, tweaks, overlays) is transient: not listed.
 export interface SettingChange { key: string; value: SettingValue; default: SettingValue; extra?: true }
 interface SetupSettings {
   mod: string;
@@ -15,7 +18,7 @@ interface SetupSettings {
   changes: readonly SettingChange[];
 }
 
-export const setup = { minecraft: "26.3", loader: "Fabric 0.20.1", system: "Apple M3 Max", reviewed: "2026-11-16" };
+export const setup = { minecraft: "26.3", loader: "Fabric 0.20.1", system: "Apple M3 Max", reviewed: "2026-11-17" };
 
 const modList: SetupMod[] = [
   { id: "myriad-evlab", name: "Myriad EvLab", source: "private" },
@@ -26,13 +29,15 @@ const modList: SetupMod[] = [
   { id: "hackle-client", name: "Hackle Client", source: "private" },
   { id: "region-scanner", name: "Region Scanner", source: "private" },
   { id: "xaero-multi-instance-fix", name: "Xaero Multi-Instance Fix", source: "private" },
-  { id: "myriad", name: "Myriad", url: "https://github.com/MyriadClient/myriad-core", source: "local" },
+  { id: "uahp-fixes", name: "UAHP Fixes", source: "private" },
+  { id: "myriad", name: "Myriad", url: "https://github.com/MyriadClient/myriad-core" },
   { id: "myriad-essentials", name: "Myriad Essentials", url: "https://github.com/MyriadClient/myriad-essentials" },
   { id: "autoinfelytra", name: "Automatic Infinite Elytra", url: "https://modrinth.com/mod/automatic-infinite-elytra", source: "local" },
   { id: "baritone", name: "Baritone", url: "https://github.com/cabaletta/baritone", source: "local" },
   { id: "betterblockentities", name: "Better Block Entities", url: "https://modrinth.com/mod/better-block-entities" },
   { id: "bundleinventory", name: "Bundle Inventory", url: "https://modrinth.com/mod/bundle-inventory", source: "local" },
   { id: "carpet", name: "Carpet Mod", url: "https://modrinth.com/mod/carpet" },
+  { id: "carpet-tis-addition", name: "Carpet TIS Addition", url: "https://modrinth.com/mod/carpet-tis-addition" },
   { id: "clientcommands", name: "Client Commands", url: "https://github.com/EvModder/clientcommands", source: "fork" },
   { id: "cloth-config", name: "Cloth Config", url: "https://modrinth.com/mod/cloth-config" },
   { id: "continuity", name: "Continuity", url: "https://modrinth.com/mod/continuity" },
@@ -69,8 +74,32 @@ const modList: SetupMod[] = [
   { id: "xaeroworldmap", name: "Xaero’s World Map", url: "https://modrinth.com/mod/xaeros-world-map" },
   { id: "xaeroplus", name: "XaeroPlus", url: "https://modrinth.com/mod/xaeroplus" },
   { id: "yet_another_config_lib_v3", name: "YetAnotherConfigLib", url: "https://modrinth.com/mod/yacl" },
+  { id: "advancements_reloaded", name: "Advancements Reloaded", url: "https://modrinth.com/mod/advancements-reloaded" },
+  { id: "betterclouds", name: "Better Clouds", url: "https://modrinth.com/mod/better-clouds" },
+  { id: "flashback", name: "Flashback", url: "https://modrinth.com/mod/flashback" },
+  { id: "isometric-renders", name: "Isometric Renders", url: "https://modrinth.com/mod/isometric-renders" },
+  { id: "krypton", name: "Krypton", url: "https://modrinth.com/mod/krypton" },
 ];
 export const mods: readonly SetupMod[] = modList.toSorted((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+
+// Resource packs: my own first, then the rest by name: the ones I load directly plus EvPackBeta's biggest sources
+// (as their own entries, so they are linked and credited); mod-provided packs (Continuity) are left out.
+// source as for mods, plus mine: my own pack (url: a direct download; a site path like "/packs/x.zip" is served
+//   from website/public/), discord: shared in a Discord server (url: the channel). No url: not public.
+// EvPackBeta stays private (no url) while it holds All-Rights-Reserved, no-derivatives or ask-first assets; see its
+//   CREDITS.txt. Publishing it also needs "Credits: Vanilla Tweaks: https://vanillatweaks.net/" on the page.
+export type PackSource = Exclude<ModSource, "private"> | "mine" | "discord";
+export type SetupPack = { id: string; name: string; url?: string; source?: PackSource };
+const packList: SetupPack[] = [
+  { id: "borderless-maps", name: "Borderless Maps", url: "https://discord.com/channels/349201680023289867/1407596879650226258", source: "discord" },
+  { id: "redstone-tweaks", name: "Redstone Tweaks", url: "https://modrinth.com/resourcepack/redstone-tweaks" },
+  { id: "uahp", name: "Ultimate Accurate Hitbox Pack", url: "https://modrinth.com/resourcepack/uahp", source: "local" },
+  { id: "vanilla-tweaks", name: "Vanilla Tweaks", url: "https://vanillatweaks.net/" },
+];
+export const packs: readonly SetupPack[] = [
+  { id: "evpackbeta", name: "EvPackBeta", source: "mine" },
+  ...packList.toSorted((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" })),
+];
 
 // Defaults verified against installed builds; EvMod config defaults use the selected startup mode.
 // Excludes keybinds, personal lists/paths, credentials, server/world data. extra: show-all view only.
@@ -94,6 +123,13 @@ const settingList: SetupSettings[] = [
     file: "config/BBEConfig.json",
     changes: [
       { key: "misc.sign_text_distance", value: 64, default: 16 },
+    ],
+  },
+  {
+    mod: "Better Clouds",
+    file: "config/betterclouds-v1.json",
+    changes: [
+      { key: "yOffset", value: 128, default: 0, extra: true },
     ],
   },
   {
@@ -195,7 +231,7 @@ const settingList: SetupSettings[] = [
       { key: "Generic.printerAllowNoneExactStates", value: true, default: false },
       { key: "Generic.printerAirPlace", value: true, default: false },
       { key: "Generic.printerSuperChineseGhostItemFix", value: false, default: true, extra: true },
-      { key: "Generic.printerAirPlaceRange", value: 4.9, default: 5 },
+      { key: "Generic.printerAirPlaceRange", value: 4.9, default: 5, extra: true },
       { key: "Generic.printerWaterlogging", value: true, default: false },
       { key: "Generic.printerHotbarSlots", value: "3,4,5,6,7,8", default: "3,4,5,6,7,8,9" },
     ],
@@ -212,7 +248,7 @@ const settingList: SetupSettings[] = [
       { key: "Generic.beeTooltips", value: true, default: false, extra: true },
       { key: "Generic.honeyTooltips", value: true, default: false, extra: true },
       { key: "Generic.biomeOverlaySingleColor", value: false, default: true, extra: true },
-      { key: "Generic.bundlePreview", value: true, default: false, extra: true },
+      { key: "Generic.bundlePreview", value: true, default: false },
       { key: "Generic.bundleDisplayRowWidth", value: 8, default: 9, extra: true },
       { key: "Generic.entityDataSyncBackup", value: true, default: false, extra: true },
       { key: "Generic.entityDataSyncCacheTimeout", value: 1, default: 2.75, extra: true },
@@ -225,6 +261,7 @@ const settingList: SetupSettings[] = [
       { key: "Generic.structuresRenderThrough", value: true, default: false, extra: true },
       { key: "Generic.useFontShadow", value: true, default: false, extra: true },
       { key: "Generic.hudAlignment", value: "top_right", default: "top_left", extra: true },
+      { key: "Generic.hudDisplayInventory", value: true, default: false, extra: true },
       { key: "Generic.biomeOverlayRange", value: 5, default: 4, extra: true },
       { key: "Generic.biomeOverlayRangeVertical", value: 3, default: 0, extra: true },
       { key: "Generic.coordinateFormat", value: "%.0f, %.0f, %.0f", default: "x: %.1f y: %.1f z: %.1f", extra: true },
@@ -288,12 +325,12 @@ const settingList: SetupSettings[] = [
     mod: "Tweakeroo",
     file: "config/tweakeroo.json",
     changes: [
-      { key: "Generic.bundleDisplayRequireShift", value: false, default: true, extra: true },
+      { key: "Generic.bundleDisplayRequireShift", value: false, default: true },
       { key: "Generic.bundleDisplayRowWidth", value: 8, default: 9, extra: true },
       { key: "Generic.freeCameraPlayerInputs.enabled", value: true, default: false },
       { key: "Generic.handRestockPre", value: false, default: true },
       { key: "Generic.shulkerDisplayRequireShift", value: false, default: true },
-      { key: "Generic.elytraCameraIndicator", value: "always", default: "with_key" },
+      { key: "Generic.elytraCameraIndicator", value: "always", default: "with_key", extra: true },
       { key: "Generic.chatBackgroundColor", value: "#55555555", default: "#80000000", extra: true },
       { key: "Generic.fastBlockPlacementCount", value: 1, default: 2 },
       { key: "Generic.fastLeftClickCount", value: 1, default: 10, extra: true },
@@ -401,7 +438,6 @@ const settingList: SetupSettings[] = [
       { key: "Flight.Anti-Kick Distance", value: 0.07, default: 0.035, extra: true },
       { key: "Follow.Distance", value: 4, default: 1, extra: true },
       { key: "Freecam.Tracer", value: true, default: false },
-      { key: "HackList.Mode", value: "Hidden", default: "Auto", extra: true },
       { key: "HackList.Color", value: "#FAFAFA", default: "#FFFFFF", extra: true },
       { key: "HackList.Sort by", value: "Width", default: "Name", extra: true },
       { key: "HackList.Reverse sorting", value: true, default: false, extra: true },
@@ -449,7 +485,7 @@ const settingList: SetupSettings[] = [
       { key: "NukerLegit.Lock ID", value: true, default: false },
       { key: "NukerLegit.MultiID List", value: "+ air, dead_bush, gravel, mycelium, sand, tall_grass; − ancient_debris, bone_block, coal_ore, copper_ore, deepslate_coal_ore, deepslate_copper_ore, deepslate_diamond_ore, deepslate_emerald_ore, deepslate_gold_ore, deepslate_iron_ore, deepslate_lapis_ore, deepslate_redstone_ore, diamond_ore, emerald_ore, glowstone, gold_ore, iron_ore, lapis_ore, nether_gold_ore, nether_quartz_ore, raw_copper_block, raw_gold_block, raw_iron_block, redstone_ore", default: "stock list (24)" },
       { key: "PlayerESP.Box size", value: "Accurate", default: "Fancy", extra: true },
-      { key: "PortalESP.Nether portal color", value: "#9900FF", default: "#FF0000" },
+      { key: "PortalESP.Nether portal color", value: "#9900FF", default: "#FF0000", extra: true },
       { key: "PortalESP.Area", value: "15x15 chunks", default: "11x11 chunks" },
       { key: "Radar.Rotate with player", value: false, default: true, extra: true },
       { key: "SafeWalk.Sneak edge distance", value: 0.175, default: 0.05 },
@@ -482,7 +518,7 @@ const settingList: SetupSettings[] = [
     file: "wurst/enabled-hacks.json",
     changes: [
       { key: "Enabled.AntiBlind", value: true, default: false },
-      { key: "Enabled.AntiEntityPush", value: true, default: false, extra: true },
+      { key: "Enabled.AntiEntityPush", value: true, default: false },
       { key: "Enabled.AntiWobble", value: true, default: false, extra: true },
       { key: "Enabled.AutoLeave", value: true, default: false },
       { key: "Enabled.AutoRespawn", value: true, default: false },
@@ -500,9 +536,9 @@ const settingList: SetupSettings[] = [
       { key: "Enabled.NoOverlay", value: true, default: false, extra: true },
       { key: "Enabled.NoPumpkin", value: true, default: false, extra: true },
       { key: "Enabled.PlayerESP", value: true, default: false },
+      { key: "Enabled.PortalESP", value: true, default: false },
       { key: "Enabled.ProphuntESP", value: true, default: false },
       { key: "Enabled.Trajectories", value: true, default: false },
-      { key: "Enabled.TriggerBot", value: true, default: false },
       { key: "Enabled.TrueSight", value: true, default: false },
     ],
   },
@@ -530,9 +566,9 @@ const settingList: SetupSettings[] = [
       { key: "auto-walk.mode", value: "Simple", default: "Smart" },
       { key: "Enabled.logout-spots", value: true, default: false },
       { key: "Enabled.portals", value: true, default: false },
-      { key: "anti-afk.jump", value: false, default: true, extra: true },
-      { key: "anti-afk.swing", value: true, default: false, extra: true },
-      { key: "anti-afk.spin", value: false, default: true, extra: true },
+      { key: "anti-afk.jump", value: false, default: true },
+      { key: "anti-afk.swing", value: true, default: false },
+      { key: "anti-afk.spin", value: false, default: true },
       { key: "Enabled.server-spoof", value: true, default: false },
       { key: "server-spoof.brand", value: "fabric", default: "vanilla" },
       { key: "server-spoof.block-channels", value: false, default: true, extra: true },
@@ -562,9 +598,9 @@ const settingList: SetupSettings[] = [
       { key: "esp.target-hitbox", value: false, default: true, extra: true },
       { key: "esp.glow-multiplier", value: 0.8, default: 3.5, extra: true },
       { key: "nametags.ignore-self", value: false, default: true, extra: true },
-      { key: "Enabled.camera-tweaks", value: true, default: false, extra: true },
-      { key: "auto-eat.hunger-threshold", value: 14, default: 16, extra: true },
-      { key: "Enabled.entity-owner", value: true, default: false, extra: true },
+      { key: "Enabled.camera-tweaks", value: true, default: false },
+      { key: "auto-eat.hunger-threshold", value: 14, default: 16 },
+      { key: "Enabled.entity-owner", value: true, default: false },
       { key: "free-look.mode", value: "Camera", default: "Player" },
       { key: "free-look.toggle-perspective", value: false, default: true, extra: true },
       { key: "free-look.arrows-control-opposite", value: false, default: true, extra: true },
@@ -587,7 +623,7 @@ const settingList: SetupSettings[] = [
     changes: [
       { key: "active", value: true, default: false, extra: true },
       { key: "custom-font", value: false, default: true, extra: true },
-      { key: "elements-active", value: "none", default: "watermark, fps, tps, ping, speed, active-modules, position, opposite-position, rotation" },
+      { key: "elements-active", value: "none", default: "watermark, fps, tps, ping, speed, active-modules, position, opposite-position, rotation", extra: true },
       { key: "active-modules.color-mode", value: "Flat", default: "Rainbow", extra: true },
       { key: "active-modules.flat-color", value: "#FFFFFFFF", default: "#E11919FF", extra: true },
     ],

@@ -1,17 +1,19 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ArrowLeft, ChevronRight, GitBranch, Lock, SlidersHorizontal } from "lucide-react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { ChevronRight, GitBranch, Lock, SlidersHorizontal } from "lucide-react";
 import profileIcon from "@/assets/profile-icon.png";
 import { LinkIcon } from "@/components/LinkIcon";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { SiteFooter } from "@/components/SiteFooter";
-import { mods, settings, setup, type ModSource, type SettingChange, type SetupMod } from "@/data/minecraftSetup";
+import { mods, packs, settings, setup, type ModSource, type PackSource, type SettingChange, type SetupMod, type SetupPack } from "@/data/minecraftSetup";
 import { projectDescription } from "@/hooks/projectDescription";
 
 const SHOW_ALL_KEY = "setup:showAllSettings";
 // Page width: no sidebars or ads, so wide screens get more columns instead of empty margins.
-const container = "max-w-[150rem] mx-auto px-6";
+// Side margins clear the fixed theme toggle (top-2 right-2, 2rem wide), so it never covers content.
+const container = "max-w-[150rem] mx-auto px-12";
 // Green (text-link) marks clickable things only; headings use the text colour.
 const sectionHeading = "font-display text-xl font-bold text-foreground";
+// Side note under a section heading.
+const sectionNote = "mt-2 text-sm text-muted-foreground leading-relaxed";
 
 // Settings cards are anchored by mod id (#baritone), so the mod list and shared links can point at them.
 const modId = new Map(mods.map(mod => [mod.name, mod.id]));
@@ -179,51 +181,81 @@ function SettingsCard({ mod, files, count, open, onToggle }:
   );
 }
 
-// Hover note for jars that differ from the linked project (none: the linked project as-is).
-const SOURCE_NOTES: Record<ModSource, string> = {
+// A mod or resource pack in a list.
+type Entry = SetupMod | SetupPack;
+type Source = ModSource | PackSource;
+
+// Hover note for entries that differ from the linked project (none: the linked project as-is).
+const SOURCE_NOTES: Record<Source, string> = {
   fork: "Public fork",
   local: "Local patch; link is to the upstream",
   private: "Not public",
+  mine: "My own pack",
+  discord: "Shared in a Discord server",
 };
 
-// Icon before each mod name (legend order): where the linked project is published, or the jar's source.
-type Marker = "modrinth" | "github" | ModSource;
+// My avatar as a stencil in the text colour, so it doesn't read as Modrinth green.
+const evIcon = <span aria-hidden className="size-3.5 shrink-0 bg-foreground" style={{ mask: `url(${profileIcon}) center / contain no-repeat` }} />;
+
+// Icon before each name (legend order): where the linked project is published, or the entry's source.
+type Marker = "modrinth" | "github" | "web" | Source;
 const MARKERS: Record<Marker, { legend: string; icon: React.ReactNode }> = {
   modrinth: { legend: "Modrinth", icon: <LinkIcon name="Modrinth" className="size-3.5 shrink-0 text-modrinth" /> },
   github: { legend: "GitHub", icon: <LinkIcon name="GitHub" className="size-3.5 shrink-0 text-foreground" /> },
-  // My avatar as a stencil in the text colour, so it doesn't read as Modrinth green.
-  fork: { legend: "public fork", icon: <span aria-hidden className="size-3.5 shrink-0 bg-foreground" style={{ mask: `url(${profileIcon}) center / contain no-repeat` }} /> },
+  web: { legend: "website", icon: <LinkIcon name="Website" className="size-3.5 shrink-0 text-foreground" /> },
+  discord: { legend: "Discord", icon: <LinkIcon name="Discord" className="size-3.5 shrink-0 text-discord" /> },
+  mine: { legend: "mine", icon: evIcon },
+  fork: { legend: "public fork", icon: evIcon },
   local: { legend: "local fork", icon: <GitBranch aria-hidden className="size-3.5 shrink-0 text-local" /> },
   private: { legend: "private", icon: <Lock aria-hidden className="size-3.5 shrink-0 text-private" /> },
 };
 
-function markerOf(mod: SetupMod): Marker {
-  if (mod.source) return mod.source;
-  return mod.url.startsWith("https://github.com/") ? "github" : "modrinth";
+function markerOf(entry: Entry): Marker {
+  if (entry.source) return entry.source;
+  if (entry.url?.startsWith("https://github.com/")) return "github";
+  return entry.url?.startsWith("https://modrinth.com/") ? "modrinth" : "web";
 }
 
-const usedMarkers = (Object.keys(MARKERS) as Marker[]).filter(marker => mods.some(mod => markerOf(mod) === marker));
-
-const SourceLegend = () => (
-  <p className="mt-1.5 mb-3 flex flex-wrap gap-x-4 gap-y-1 font-display text-xs text-muted-foreground">
-    {usedMarkers.map(marker => (
+// Under the section note. The "Key" label makes it read as a key, not the list's first row.
+const SourceLegend = ({ items }: { items: readonly Entry[] }) => (
+  <p aria-label="Source key" className="mt-1.5 mb-5 flex flex-wrap items-center gap-x-4 gap-y-1 font-display text-xs text-muted-foreground">
+    <span aria-hidden className="text-[0.625rem] uppercase tracking-widest">Key</span>
+    {(Object.keys(MARKERS) as Marker[]).filter(marker => items.some(item => markerOf(item) === marker)).map(marker => (
       <span key={marker} className="inline-flex items-center gap-1.5">{MARKERS[marker].icon}{MARKERS[marker].legend}</span>
     ))}
   </p>
 );
 
-// Fixed mod-list column width and gap (rem), so spacing stays constant; the width fits the longest entry.
-const MOD_COLUMN = 14, MOD_GAP = 1.25;
+// Site paths are downloads served from website/public/; anything else opens in a new tab.
+const linkTarget = (url: string) => url.startsWith("/") ? { download: "" } : { target: "_blank", rel: "noopener noreferrer" };
+
+// Fixed list column widths and gap (rem), so spacing stays constant; each width fits its list's longest name.
+const MOD_COLUMN = 14, PACK_COLUMN = 17, LIST_GAP = 1.25;
+
+// Column-first layout: the fewest rows that fit, then the fewest columns for those rows; lengths differ by at
+// most one (the longer columns first). place(i): the grid cell of the i-th item.
+function listLayout(count: number, fit: number) {
+  const columns = Math.ceil(count / Math.ceil(count / Math.max(1, fit)));
+  const short = Math.floor(count / columns), longItems = (count % columns) * (short + 1);
+  const place = (i: number) => i < longItems
+    ? { gridColumn: Math.floor(i / (short + 1)) + 1, gridRow: i % (short + 1) + 1 }
+    : { gridColumn: count % columns + Math.floor((i - longItems) / short) + 1, gridRow: (i - longItems) % short + 1 };
+  return { columns, place };
+}
 
 // counts: changed settings per mod name, for the mods that have a card in the current Core/All view.
-function ModList({ counts, onReveal }: { counts: ReadonlyMap<string, number>; onReveal: (id: string) => void }) {
+function EntryList({ items, column, counts, onReveal }: {
+  items: readonly Entry[]; column: number; counts?: ReadonlyMap<string, number>; onReveal?: (id: string) => void;
+}) {
+  const tipId = useId();
   const [tip, setTip] = useState<{ id: string; note?: string; text: string; left: number; top: number } | null>(null);
   const hovered = useRef<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
-  const [frame, columns] = useColumns(MOD_COLUMN, MOD_GAP);
+  const [frame, fit] = useColumns(column, LIST_GAP);
+  const { columns, place } = listLayout(items.length, fit);
 
   // Tooltip: the source note at once, then the project's live description once it arrives.
-  const show = (mod: SetupMod, anchor: HTMLElement) => {
+  const show = (mod: Entry, anchor: HTMLElement) => {
     hovered.current = mod.id;
     const note = mod.source && SOURCE_NOTES[mod.source];
     const place = (text: string) => {
@@ -236,8 +268,8 @@ function ModList({ counts, onReveal }: { counts: ReadonlyMap<string, number>; on
     if (mod.url) projectDescription(mod.url).then(place);
   };
   const hide = () => { hovered.current = null; setTip(null); };
-  const tipProps = (mod: SetupMod) => ({
-    "aria-describedby": tip?.id === mod.id ? "mod-tip" : undefined,
+  const tipProps = (mod: Entry) => ({
+    "aria-describedby": tip?.id === mod.id ? tipId : undefined,
     onPointerEnter: (e: React.PointerEvent<HTMLElement>) => show(mod, e.currentTarget), onPointerLeave: hide,
     onFocus: (e: React.FocusEvent<HTMLElement>) => show(mod, e.currentTarget), onBlur: hide,
   });
@@ -245,16 +277,15 @@ function ModList({ counts, onReveal }: { counts: ReadonlyMap<string, number>; on
   // Column-major (alphabetical down each column); a grid, since CSS multi-column balances differently per browser.
   return (
     <div ref={frame} className="relative">
-      <ul ref={listRef} className="grid grid-flow-col text-sm" style={{
-        gridAutoColumns: `${MOD_COLUMN}rem`, columnGap: `${MOD_GAP}rem`,
-        gridTemplateRows: `repeat(${Math.ceil(mods.length / columns)}, auto)`,
+      <ul ref={listRef} className="grid text-sm" style={{
+        gridTemplateColumns: `repeat(${columns}, ${column}rem)`, columnGap: `${LIST_GAP}rem`,
       }}>
-        {mods.map(mod => (
-          <li key={mod.id} className="flex items-center py-0.5">
+        {items.map((mod, i) => (
+          <li key={mod.id} className="flex items-center py-0.5" style={place(i)}>
             {/* The icon sits inside the link (or the private name's hover target), so it is clickable too. */}
             <span>
               {mod.url ? (
-                <a href={mod.url} target="_blank" rel="noopener noreferrer" {...tipProps(mod)}
+                <a href={mod.url} {...linkTarget(mod.url)} {...tipProps(mod)}
                   className="group inline-flex items-center gap-2 align-top text-foreground">
                   {MARKERS[markerOf(mod)].icon}<span className="underline-offset-3 group-hover:underline">{mod.name}</span>
                 </a>
@@ -263,10 +294,10 @@ function ModList({ counts, onReveal }: { counts: ReadonlyMap<string, number>; on
                   {MARKERS[markerOf(mod)].icon}{mod.name}
                 </span>
               )}
-              {counts.has(mod.name) && (
+              {counts?.has(mod.name) && (
                 <a href={`#${mod.id}`} title={`${counts.get(mod.name)} changed settings`}
                   aria-label={`${mod.name}: ${counts.get(mod.name)} changed settings`}
-                  onClick={e => { e.preventDefault(); history.pushState(null, "", `#${mod.id}`); onReveal(mod.id); }}
+                  onClick={e => { e.preventDefault(); history.pushState(null, "", `#${mod.id}`); onReveal?.(mod.id); }}
                   className="ml-2 inline-flex items-center gap-1 font-display text-xs tabular-nums text-link hover:underline underline-offset-3">
                   <SlidersHorizontal className="size-3" aria-hidden />{counts.get(mod.name)}
                 </a>
@@ -276,7 +307,7 @@ function ModList({ counts, onReveal }: { counts: ReadonlyMap<string, number>; on
         ))}
       </ul>
       {tip && (
-        <div id="mod-tip" role="tooltip" style={{ left: Math.max(0, tip.left), top: tip.top }}
+        <div id={tipId} role="tooltip" style={{ left: Math.max(0, tip.left), top: tip.top }}
           className="pointer-events-none absolute z-20 w-max max-w-64 rounded-md border border-border bg-card px-3 py-2 text-xs leading-snug text-foreground shadow-lg">
           {tip.note && <p className="text-muted-foreground">{tip.note}</p>}
           {tip.text && <p className={tip.note ? "mt-1" : ""}>{tip.text}</p>}
@@ -321,13 +352,10 @@ export default function MinecraftSetup() {
 
   return (
     <div className="setup-page min-h-screen bg-background">
-      <div className="fixed top-4 right-4 z-50"><ThemeToggle /></div>
+      <div className="fixed top-2 right-2 z-50"><ThemeToggle /></div>
       <header className="border-b border-border">
         <div className={`${container} py-5`}>
-          <a href="/" className="inline-flex items-center gap-1.5 font-display text-sm text-link hover:underline underline-offset-3">
-            <ArrowLeft className="size-4" /> EvModder
-          </a>
-          <h1 className="font-display font-bold text-3xl md:text-4xl leading-none mt-3">My Setup</h1>
+          <h1 className="font-display font-bold text-3xl md:text-4xl leading-none">My Setup</h1>
           <p className="mt-2 text-muted-foreground">
             The mods and settings I use on 2b2t
           </p>
@@ -340,20 +368,23 @@ export default function MinecraftSetup() {
         </div>
       </header>
 
-      <main className={`${container} pt-5 pb-16`}>
-        <p className="text-sm text-muted-foreground leading-relaxed border-l-2 border-primary/40 pl-4">
-          Some mods are personal forks or private builds, so you might not get 100% identical
-          behavior in your own setup.<br />
-          Links below lead to public versions, which may behave slightly differently.
-        </p>
-
-        <section aria-labelledby="mods-heading" className="mt-6">
-          <h2 id="mods-heading" className={sectionHeading}>Installed mods</h2>
-          <SourceLegend />
-          <ModList counts={counts} onReveal={id => revealCard(id, true)} />
+      <main className={`${container} pt-8 pb-16`}>
+        <section aria-labelledby="packs-heading">
+          <h2 id="packs-heading" className={sectionHeading}>Resource packs</h2>
+          <div className="mt-3"><EntryList items={packs} column={PACK_COLUMN} /></div>
         </section>
 
-        <section id="settings" aria-labelledby="settings-heading" className="mt-12 scroll-mt-6">
+        <section aria-labelledby="mods-heading" className="mt-8">
+          <h2 id="mods-heading" className={sectionHeading}>Installed mods</h2>
+          <p className={sectionNote}>
+            Some mods are personal forks or private builds, so you might not get 100% identical
+            behavior in your own setup.
+          </p>
+          <SourceLegend items={mods} />
+          <EntryList items={mods} column={MOD_COLUMN} counts={counts} onReveal={id => revealCard(id, true)} />
+        </section>
+
+        <section id="settings" aria-labelledby="settings-heading" className="mt-8 scroll-mt-6">
           <div className="flex items-baseline justify-between gap-4 mb-4">
             <h2 id="settings-heading" className={sectionHeading}>Changed settings</h2>
             <div role="group" aria-label="Settings shown" className="font-display text-xs text-muted-foreground">
@@ -381,7 +412,6 @@ export default function MinecraftSetup() {
           </div>
         </section>
       </main>
-      <SiteFooter />
     </div>
   );
 }

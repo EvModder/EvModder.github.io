@@ -4,7 +4,6 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useGitHubStats } from "@/hooks/useGitHubStats";
 import { LinkIcon } from "@/components/LinkIcon";
-import { SiteFooter } from "@/components/SiteFooter";
 
 interface ProfileLink {
   href: string;
@@ -78,7 +77,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-2 right-2 z-50">
         <ThemeToggle />
       </div>
 
@@ -157,7 +156,11 @@ const App = () => {
         </section>
       </main>
 
-      <SiteFooter />
+      <footer className="border-t border-border py-8">
+        <div className="max-w-5xl mx-auto px-6 text-center text-xs text-muted-foreground font-display">
+          Compassion &middot; Conscientiousness &middot; Objectivism &middot; Geomorphology
+        </div>
+      </footer>
     </div>
   );
 };

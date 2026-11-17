@@ -11,7 +11,7 @@ const pending = new Map<string, Promise<string>>();
 function apiUrl(url: string) {
   const github = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)/);
   if (github) return `https://api.github.com/repos/${github[1]}/${github[2]}`;
-  const modrinth = url.match(/^https:\/\/modrinth\.com\/mod\/([^/]+)/);
+  const modrinth = url.match(/^https:\/\/modrinth\.com\/(?:mod|resourcepack)\/([^/]+)/);
   if (modrinth) return `https://api.modrinth.com/v2/project/${modrinth[1]}`;
 }
 
